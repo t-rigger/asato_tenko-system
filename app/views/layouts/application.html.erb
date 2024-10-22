@@ -22,6 +22,12 @@
   </head>
 
   <body>
+    <% if notice %>
+      <p class="w-full rounded-none bg-[#213F7E] text-center py-1 text-white text-sm"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+      <p class="w-full rounded-none bg-[#DC444B] text-center py-1 text-white text-sm"><%= alert %></p>
+    <% end %>
     <%= yield %>
   </body>
 </html>

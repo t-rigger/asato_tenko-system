@@ -9,12 +9,15 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
+
   # rootをログイン画面に設定
   devise_scope :admin do
     root "admins/sessions#new"
   end
 
   devise_for :admins, :controllers => {
-    sessions: 'admins/sessions'
+    sessions: 'admins/sessions',
+    passwords: 'admins/passwords'
   }
 end

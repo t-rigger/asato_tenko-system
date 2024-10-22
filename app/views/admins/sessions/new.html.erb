@@ -5,7 +5,6 @@
     <div class="card flex-shrink-0 w-full shadow bg-base-100 mx-auto">
       <div class="card-body">
         <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-          <input type="hidden" name="authenticity_token" value="CgJSjDZlRBASiiyZHL5rAyftALb7eGf2s4449MvfA95triGlF8TOaVfECGQuSOIzCJQoE10RrgZ7AqSNO7hvcw" autocomplete="off">
           <div class="form-control">
             <%= f.label :email, class: "label" do %>
               <span class="label-text">メールアドレス</span>
@@ -21,7 +20,7 @@
           </div>
 
           <ul class="text-left">
-            <li><a class="label-text-alt link link-hover" href="/password_resets/new">パスワードを忘れた方はこちら</a></li>
+            <li><a class="label-text-alt link link-hover" href="password/new">パスワードを忘れた方はこちら</a></li>
           </ul>
 
           <div class="form-control mt-6">

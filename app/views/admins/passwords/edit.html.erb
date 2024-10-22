@@ -1,25 +1,43 @@
-<h2>Change your password</h2>
+<%= render "shared/header" %>
+<div class="hero min-h-screen bg-base-200">
+  <div class="w-screen px-4 my-12 max-w-sm">
+    <h1 class="text-3xl font-bold text-center mb-4">パスワードをリセット</h1>
+    <p class="mb-3 text-sm">※ 半角英数字で設定してください</p>
+    <p class="mb-3 text-sm">※ 8~255文字以内で設定してください</p>
+    <div class="card flex-shrink-0 w-full shadow bg-base-100 mx-auto">
+      <div class="card-body">
+        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+          <% if resource.errors.any? %>
+            <div id="error_explanation" data-turbo-cache="false">
+              <ul>
+                <% resource.errors.full_messages.each do |message| %>
+                  <li class="text-xs text-red-600"><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <%= f.hidden_field :reset_password_token %>
+          <div class="form-control">
+            <%= f.label :password, class: "label" do %>
+              <span class="label-text">新しいパスワード</span>
+            <% end %>
+            <%= f.password_field :password, class: "input input-bordered" %>
+          </div>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "admins/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
+          <div class="form-control">
+            <%= f.label :password_confirmation, class: "label" do %>
+              <span class="label-text">新しいパスワードを確認</span>
+            <% end %>
+            <%= f.password_field :password_confirmation, class: "input input-bordered" %>
+          </div>
 
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
+          <div class="form-control mt-6">
+            <%= f.submit "更新", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
+</div>
 
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
-
-<%= render "admins/shared/links" %>
+<%= render "shared/footer" %>

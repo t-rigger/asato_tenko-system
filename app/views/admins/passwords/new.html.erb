@@ -1,16 +1,34 @@
-<h2>Forgot your password?</h2>
+<%= render "shared/header" %>
+<div class="hero min-h-screen bg-base-200">
+  <div class="w-screen px-4 my-12 max-w-sm">
+    <h1 class="text-3xl font-bold text-center mb-4">パスワードリセット受付</h1>
+    <p class="mb-3 text-sm">ユーザー登録したメールアドレスをご入力ください。入力されたメールアドレスに、パスワード再設定用のメールが送信されます。</p>
+    <div class="card flex-shrink-0 w-full shadow bg-base-100 mx-auto">
+      <div class="card-body">
+        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+          <% if resource.errors.any? %>
+            <div id="error_explanation" data-turbo-cache="false">
+              <ul>
+                <% resource.errors.full_messages.each do |message| %>
+                  <li class="text-xs text-red-600"><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <div class="form-control">
+            <%= f.label :email, class: "label" do %>
+              <span class="label-text">メールアドレス</span>
+            <% end %>
+            <%= f.email_field :email, class: "input input-bordered" %>
+          </div>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "admins/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+          <div class="form-control mt-6">
+            <%= f.submit "送信", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
+</div>
 
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "admins/shared/links" %>
+<%= render "shared/footer" %>
