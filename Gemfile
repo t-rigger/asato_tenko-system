@@ -14,6 +14,7 @@ gem "bootsnap", require: false
 gem "rails-i18n", "~> 7.0"
 gem "dotenv"
 gem "tailwindcss-rails"
+gem "devise"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
