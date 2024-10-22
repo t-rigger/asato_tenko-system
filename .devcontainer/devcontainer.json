@@ -1,0 +1,86 @@
+// devcontainer.jsonの設定ファイル。VSCodeがDockerコンテナに接続し、開発環境を構築するための設定を記述。
+{
+	// VSCodeの上部バーに表示される名前。開発環境を識別するために使用。
+	"name": "幸美商事 点呼システム",
+
+	// 利用するdocker-compose.ymlのファイルパスを指定。
+	"dockerComposeFile": "docker-compose.yml",
+
+	// VSCodeが接続するサービス名。docker-compose.yml内で定義されたサービス名を指定。
+	"service": "app",
+
+	// コンテナ内で開くワークスペースフォルダのパス。`${localWorkspaceFolderBasename}`はホスト側のワークスペース名を利用。
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+	// コンテナ内で設定する環境変数。ここではRAILS_ENVを"development"に設定。
+	"containerEnv": {
+    "RAILS_ENV": "development"
+  },
+
+	// ホストマシンとコンテナ間で転送するポートを指定。3000はRailsサーバー、5432はPostgreSQLに対応。
+	"forwardPorts": [
+		3000, 5432
+  ],
+
+	// コンテナ作成時に実行されるコマンド。git、vim、less、openssh-clientをインストール。
+	"onCreateCommand": "apt update && apt -y upgrade && apt install -y git vim less openssh-client || true",
+
+	// VSCodeがコンテナにアタッチした際に実行されるコマンド。以前に起動されたRailsサーバープロセスを終了させる処理。
+	"postAttachCommand": "kill $(ps aux | grep 'rails' | grep -v 'grep' | awk '{print $2}') || true && sleep 1",
+
+	// コンテナ作成後に実行されるコマンド。boot.shに記載
+	"postCreateCommand": ".devcontainer/boot.sh",
+
+	// VSCodeのカスタマイズ設定。拡張機能やエディタの設定を指定。
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"aliariff.vscode-erb-beautify",
+				"streetsidesoftware.code-spell-checker",
+				"formulahendry.code-runner",
+				"mikestead.dotenv",
+				"janisdd.vscode-edit-csv",
+				"kaiwood.endwise",
+				"CraigMaslowski.erb",
+				"waderyan.gitblame",
+				"mhutchie.git-graph",
+				"donjayamanne.githistory",
+				"github.vscode-github-actions",
+				"GitHub.vscode-pull-request-github",
+				"codezombiech.gitignore",
+				"eamodio.gitlens",
+				"seatonjiang.gitmoji-vscode",
+				"ecmel.vscode-html-css",
+				"oderwat.indent-rainbow",
+				"christian-kohler.path-intellisense",
+				"esbenp.prettier-vscode",
+				"benspaulding.procfile",
+				"bung87.rails",
+				"mechatroner.rainbow-csv",
+				"Shopify.ruby-extensions-pack",
+				"Cjay.ruby-and-rails-snippets",
+				"Shopify.ruby-lsp",
+				"Hridoy.rails-snippets",
+				"sorbet.sorbet-vscode-extension",
+				"sianglim.slim",
+				"TabNine.tabnine-vscode",
+				"shardulm94.trailing-spaces",
+				"bung87.vscode-gemfile",
+				"vscode-icons-team.vscode-icons",
+				"redhat.vscode-yaml",
+				"ms-vscode-remote.vscode-remote-extensionpack"
+			]
+		},
+		// VSCodeの設定。ファイルの自動保存と監視除外を設定。
+		"settings": {
+			"files.autoSave": "afterDelay", // ファイルを一定時間経過後に自動保存。
+			"files.watcherExclude": { // ファイル監視の除外設定。Gitのオブジェクトやキャッシュを対象外にする。
+				"**/.git/objects/**": true,
+				"**/.git/subtree-cache/**": true
+			}
+		}
+	},
+
+	// コンテナ内で使用するデフォルトのユーザーを指定。
+	"remoteUser": "root"
+}
