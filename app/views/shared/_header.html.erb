@@ -22,7 +22,11 @@
         <% else %>
           <li class="m-1"><a class="btn btn-primary" style="color: #DCFFB8;" href="/">管理者の方へ</a></li>
         <% end %>
-        <li class="m-1"><a class="btn btn-outline btn-primary" href="#">従業員はコチラ</a></li>
+        <li class="m-1">
+          <%= link_to users_registration_path, class: "btn btn-outline btn-primary" do %>
+            従業員はコチラ
+          <% end %>
+        </li>
       </ul>
     </div>
   </div>

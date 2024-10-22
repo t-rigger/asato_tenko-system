@@ -21,6 +21,15 @@ Rails.application.routes.draw do
     passwords: 'admins/passwords'
   }
 
+  devise_scope :user do
+    get "users/registration", to: "omniauth_callbacks#new"
+    get "users/registration/complete", to: "omniauth_callbacks#complete"
+  end
+
+  devise_for :users, controllers: {
+    omniauth_callbacks: "omniauth_callbacks"
+  }
+
   namespace :admins do
     scope :v1 do
       resources :dashboards, only: [:index]
