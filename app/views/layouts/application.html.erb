@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Tenko System" %></title>
+    <title><%= content_for(:title) || "幸美商事 点呼システム" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -12,7 +12,11 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="apple-touch-icon" href="/icon.png">
+    <!-- TailwindCSS + DaisyUI -->
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.13/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- TailwindCSS + DaisyUI -->
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
