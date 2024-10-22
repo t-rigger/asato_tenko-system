@@ -20,4 +20,10 @@ Rails.application.routes.draw do
     sessions: 'admins/sessions',
     passwords: 'admins/passwords'
   }
+
+  namespace :admins do
+    scope :v1 do
+      resources :dashboards, only: [:index]
+    end
+  end
 end

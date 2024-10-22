@@ -1,14 +1,27 @@
 <header>
   <div class="navbar bg-base-100">
     <div class="flex-1">
-      <a class="btn btn-ghost normal-case text-xl" href="/">
-        <%= image_tag "logo.png", alt: "幸美商事 ロゴ", class: "w-10 h-10" %>
-        点呼システム
-      </a>
+      <% if admin_signed_in? %>
+        <%= link_to admins_dashboards_path, class: "btn btn-ghost normal-case text-xl" do %>
+          <%= image_tag "logo.png", alt: "幸美商事 ロゴ", class: "w-10 h-10" %>
+          点呼システム
+        <% end %>
+      <% else %>
+        <a class="btn btn-ghost normal-case text-xl" href="/">
+          <%= image_tag "logo.png", alt: "幸美商事 ロゴ", class: "w-10 h-10" %>
+          点呼システム
+        </a>
+      <% end %>
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal p-0 mr-2">
-        <li class="m-1"><a class="btn btn-primary" style="color: #DCFFB8;" href="/">管理者の方へ</a></li>
+        <% if admin_signed_in? %>
+          <li class="m-1">
+            <%= link_to 'ログアウト', destroy_admin_session_path, data: { turbo_method: :delete }, class: "btn btn-primary", style: "color: #DCFFB8;" %>
+          </li>
+        <% else %>
+          <li class="m-1"><a class="btn btn-primary" style="color: #DCFFB8;" href="/">管理者の方へ</a></li>
+        <% end %>
         <li class="m-1"><a class="btn btn-outline btn-primary" href="#">従業員はコチラ</a></li>
       </ul>
     </div>
