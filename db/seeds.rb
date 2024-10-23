@@ -9,6 +9,6 @@
 #   end
 
 Admin.create!(
-  email: "example@gmail.com",
-  password: "1q2w3e4r"
+  email: ENV["ADMIN_EMAIL"],
+  password: ENV["ADMIN_PASWORD"]
 )

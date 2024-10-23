@@ -18,6 +18,7 @@ gem "devise"
 gem 'devise-i18n'
 gem 'omniauth-line'
 gem 'omniauth-rails_csrf_protection'
+gem "httparty"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
