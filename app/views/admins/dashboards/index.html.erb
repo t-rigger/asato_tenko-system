@@ -1,7 +1,7 @@
 <%= render "shared/header" %>
 <div class="hero bg-base-200">
   <div class="w-screen px-4 my-12 max-w-sm">
-    <div class="card bg-base-100 w-96 shadow-xl">
+    <div class="card bg-base-100 shadow-xl">
       <figure>
         <img src="https://www.yukimi-corp.com/image/Company_index.jpg" alt="幸美商事" />
       </figure>
@@ -12,6 +12,86 @@
           <button class="btn btn-primary">クイックガイドを見る</button>
         </div>
       </div>
+    </div>
+    <div class="overflow-x-auto bg-base-100 shadow-xl p-2 mt-5 mb-3 rounded-lg">
+      <h2 class="mb-3 mt-2 text-lg font-bold pl-3">登録従業員情報</h2>
+      <% if @users.present? %>
+        <table class="table table-xs">
+          <thead>
+            <tr>
+              <th></th>
+              <th>氏名</th>
+              <th>所属</th>
+              <th>メニュー</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <th><%= user.id %></th>
+                <td><%= user.name %></td>
+                <td>所属情報</td>
+                <td></td>
+              </tr>
+            <% end %>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th></th>
+              <th>氏名</th>
+              <th>所属</th>
+              <th>メニュー</th>
+            </tr>
+          </tfoot>
+        </table>
+      <% end %>
+    </div>
+    <div class="overflow-x-auto bg-base-100 shadow-xl p-2 mt-5 mb-3 rounded-lg">
+      <h2 class="mb-3 mt-2 text-lg font-bold pl-3">稼働している点呼</h2>
+      <% if @alarms.present? %>
+        <table class="table table-xs">
+          <thead>
+            <tr>
+              <th></th>
+              <th>点呼対象者</th>
+              <th>作動時刻</th>
+              <th>点呼曜日</th>
+              <th>メニュー</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @alarms.each do |alarm| %>
+              <tr>
+                <th><%= alarm.id %></th>
+                <td><%= alarm.user.name %></td>
+                <td><%= alarm.time %></td>
+                <td>
+                  <% days = [] %>
+                  <% days << "毎日" if alarm.everyday %>
+                  <% days << "月" if alarm.monday %>
+                  <% days << "火" if alarm.tuesday %>
+                  <% days << "水" if alarm.wednesday %>
+                  <% days << "木" if alarm.thursday %>
+                  <% days << "金" if alarm.friday %>
+                  <% days << "土" if alarm.saturday %>
+                  <% days << "日" if alarm.sunday %>
+                  <%= days.any? ? days.join(", ") : "なし" %>
+                </td>
+                <td></td>
+              </tr>
+            <% end %>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th></th>
+              <th>点呼対象者</th>
+              <th>作動時刻</th>
+              <th>点呼曜日</th>
+              <th>メニュー</th>
+            </tr>
+          </tfoot>
+        </table>
+      <% end %>
     </div>
   </div>
 </div>

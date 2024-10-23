@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_22_132706) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_23_093925) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,26 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_22_132706) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "alarms", force: :cascade do |t|
+    t.time "time", null: false
+    t.string "title"
+    t.boolean "everyday", default: false, null: false
+    t.boolean "monday", default: false, null: false
+    t.boolean "tuesday", default: false, null: false
+    t.boolean "wednesday", default: false, null: false
+    t.boolean "thursday", default: false, null: false
+    t.boolean "friday", default: false, null: false
+    t.boolean "saturday", default: false, null: false
+    t.boolean "sunday", default: false, null: false
+    t.boolean "email", default: false, null: false
+    t.boolean "line", default: true, null: false
+    t.boolean "enabled", default: false, null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_alarms_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
