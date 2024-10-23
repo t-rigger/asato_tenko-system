@@ -33,7 +33,17 @@ Rails.application.routes.draw do
   namespace :admins do
     scope :v1 do
       resources :dashboards, only: [:index]
-      resources :users, only: %i(show edit update destroy)
+      resources :users, only: %i(show edit update destroy) do
+        resources :alarms, only: %i(new create edit update destroy)
+      end
+    end
+  end
+
+  namespace :api do
+    scope :v1 do
+      resources :users, only: %i() do
+        resources :alarms, only: %i(update)
+      end
     end
   end
 end

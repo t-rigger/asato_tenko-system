@@ -52,53 +52,52 @@
     </div>
     <div class="overflow-x-auto bg-base-100 shadow-xl p-2 mt-5 mb-3 rounded-lg">
       <h2 class="mb-3 mt-2 text-lg font-bold pl-3">稼働している点呼</h2>
-      <% if @alarms.present? %>
-        <table class="table table-xs">
-          <thead>
-            <tr>
-              <th></th>
-              <th>点呼対象者</th>
-              <th>作動時刻</th>
-              <th>点呼曜日</th>
-              <th>メニュー</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @alarms.each do |alarm| %>
-              <tr>
-                <th><%= alarm.id %></th>
-                <td class="text-blue-500">
-                  <%= link_to admins_user_path(user) do %>
-                    <%= alarm.user.name %>
-                  <% end %>
-                </td>
-                <td><%= alarm.time %></td>
-                <td>
-                  <% days = [] %>
-                  <% days << "毎日" if alarm.everyday %>
-                  <% days << "月" if alarm.monday %>
-                  <% days << "火" if alarm.tuesday %>
-                  <% days << "水" if alarm.wednesday %>
-                  <% days << "木" if alarm.thursday %>
-                  <% days << "金" if alarm.friday %>
-                  <% days << "土" if alarm.saturday %>
-                  <% days << "日" if alarm.sunday %>
-                  <%= days.any? ? days.join(", ") : "なし" %>
-                </td>
-                <td></td>
-              </tr>
-            <% end %>
-          </tbody>
-          <tfoot>
-            <tr>
-              <th></th>
-              <th>点呼対象者</th>
-              <th>作動時刻</th>
-              <th>点呼曜日</th>
-              <th>メニュー</th>
-            </tr>
-          </tfoot>
-        </table>
+      <% @alarms.each do |alarm| %>
+        <details class="group border border-gray-300 rounded-lg mb-2">
+          <summary class="cursor-pointer bg-gray-100 p-3 rounded-t-lg group-open:bg-gray-200">
+            <%= alarm.time.strftime("%H:%M") %> <%= alarm.enabled? ? "点呼ON": "点呼OFF" %>
+          </summary>
+          <div class="p-3 bg-gray-50 group-open:bg-white rounded-b-lg">
+            <p>通知対象者: <%= alarm.user.name %></p>
+            <p><%= alarm.title.present? ? alarm.title : "タイトルなし" %></p>
+            <!-- 通知曜日の表示 -->
+            <p>通知する曜日:
+              <% days = [] %>
+              <% days << "月曜" if alarm.monday %>
+              <% days << "火曜" if alarm.tuesday %>
+              <% days << "水曜" if alarm.wednesday %>
+              <% days << "木曜" if alarm.thursday %>
+              <% days << "金曜" if alarm.friday %>
+              <% days << "土曜" if alarm.saturday %>
+              <% days << "日曜" if alarm.sunday %>
+              <% if alarm.everyday %>
+                毎日
+              <% elsif days.any? %>
+                <%= days.join(", ") %>
+              <% else %>
+                設定なし
+              <% end %>
+            </p>
+
+            <!-- 通知方法の表示 -->
+            <p>通知方法:
+              <%= alarm.email ? "メール" : "" %>
+              <%= alarm.line ? (alarm.email ? "、" : "") + "LINE" : "" %>
+              <% if !alarm.email && !alarm.line %>
+                設定なし
+              <% end %>
+            </p>
+            <!-- 点呼のオン/オフボタン -->
+            <div class="mt-4">
+              <%= link_to alarm.enabled ? "点呼をオフにする" : "点呼をオンにする", api_user_alarm_path(alarm.user, alarm), data: {turbo_method: :patch}, class: "btn btn-outline btn-sm" %>
+            </div>
+
+            <!-- 編集ボタン -->
+            <div class="mt-2">
+              <%= link_to "編集", edit_admins_user_alarm_path(alarm.user, alarm), class: "btn btn-primary btn-sm" %>
+            </div>
+          </div>
+        </details>
       <% end %>
     </div>
   </div>

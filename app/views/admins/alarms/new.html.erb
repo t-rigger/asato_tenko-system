@@ -1,0 +1,8 @@
+<%= render "shared/header" %>
+<div class="hero bg-base-200">
+  <div class="w-screen px-4 my-12 max-w-xl">
+    <h1 class="text-3xl font-bold text-center mb-4">アラームを登録する</h1>
+    <%= render "form", alarm: @alarm, user: @user, msg: "登録" %>
+  </div>
+</div>
+<%= render "shared/footer" %>
