@@ -23,7 +23,7 @@
   ],
 
 	// コンテナ作成時に実行されるコマンド。git、vim、less、openssh-clientをインストール。
-	"onCreateCommand": "apt update && apt -y upgrade && apt install -y git vim less openssh-client || true",
+	"onCreateCommand": "apt update && apt -y upgrade && apt install -y git vim less openssh-client cron || true",
 
 	// VSCodeがコンテナにアタッチした際に実行されるコマンド。以前に起動されたRailsサーバープロセスを終了させる処理。
 	"postAttachCommand": "kill $(ps aux | grep 'rails' | grep -v 'grep' | awk '{print $2}') || true && sleep 1",
