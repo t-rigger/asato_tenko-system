@@ -1,0 +1,31 @@
+<%= render "shared/header" %>
+<div class="hero bg-base-200">
+  <div class="w-screen px-4 my-12 max-w-xl">
+    <h1 class="text-3xl font-bold text-center mb-4">登録情報の更新</h1>
+    <div class="card flex-shrink-0 w-full shadow bg-base-100 mx-auto">
+      <div class="card-body">
+        <%= form_with model: @user, url: admins_user_path(@user), data: {turbo_method: :patch} do |f| %>
+          <div class="form-control">
+            <%= f.label :email, class: "label" do %>
+              <span class="label-text">メールアドレス</span>
+            <% end %>
+            <%= f.email_field :email, class: "input input-bordered", required: true %>
+          </div>
+
+          <div class="form-control">
+            <%= f.label :name, class: "label" do %>
+              <span class="label-text">表示名</span>
+            <% end %>
+            <%= f.text_field :name, class: "input input-bordered", required: true %>
+          </div>
+
+          <div class="form-control mt-6">
+            <%= f.submit "更新", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "shared/footer" %>

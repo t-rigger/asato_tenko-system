@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   namespace :admins do
     scope :v1 do
       resources :dashboards, only: [:index]
+      resources :users, only: %i(show edit update destroy)
     end
   end
 end

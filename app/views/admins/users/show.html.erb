@@ -6,49 +6,12 @@
         <img src="https://www.yukimi-corp.com/image/Company_index.jpg" alt="幸美商事" />
       </figure>
       <div class="card-body">
-        <h2 class="card-title">Welcome！</h2>
-        <p>点呼システムは従業員へ勤務前の点呼を自動で行うシステムです。クイックガイドで使い方を確認いただけます。</p>
+        <h2 class="card-title"><%= @user.name %>さんの登録情報</h2>
+        <p>下記編集ボタンから、登録情報の更新が行えます。</p>
         <div class="card-actions justify-end">
-          <button class="btn btn-primary">クイックガイドを見る</button>
+          <%= link_to "編集", edit_admins_user_path(@user), class: "btn btn-primary" %>
         </div>
       </div>
-    </div>
-    <div class="overflow-x-auto bg-base-100 shadow-xl p-2 mt-5 mb-3 rounded-lg">
-      <h2 class="mb-3 mt-2 text-lg font-bold pl-3">登録従業員情報</h2>
-      <% if @users.present? %>
-        <table class="table table-xs">
-          <thead>
-            <tr>
-              <th></th>
-              <th>氏名</th>
-              <th>所属</th>
-              <th>メニュー</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @users.each do |user| %>
-              <tr>
-                <th><%= user.id %></th>
-                <td class="text-blue-500">
-                  <%= link_to admins_user_path(user) do %>
-                    <%= user.name %>
-                  <% end %>
-                </td>
-                <td>所属情報</td>
-                <td></td>
-              </tr>
-            <% end %>
-          </tbody>
-          <tfoot>
-            <tr>
-              <th></th>
-              <th>氏名</th>
-              <th>所属</th>
-              <th>メニュー</th>
-            </tr>
-          </tfoot>
-        </table>
-      <% end %>
     </div>
     <div class="overflow-x-auto bg-base-100 shadow-xl p-2 mt-5 mb-3 rounded-lg">
       <h2 class="mb-3 mt-2 text-lg font-bold pl-3">稼働している点呼</h2>
