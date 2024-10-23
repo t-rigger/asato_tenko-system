@@ -13,7 +13,17 @@
         </a>
       <% end %>
     </div>
-    <div class="flex-none">
+    <!-- ハンバーガーメニューボタン -->
+    <div class="flex-none lg:hidden">
+      <button class="btn btn-square btn-ghost" id="menu-toggle">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+    
+    <!-- メニュー -->
+    <div class="flex-none hidden lg:flex" id="menu">
       <ul class="menu menu-horizontal p-0 mr-2">
         <% if admin_signed_in? %>
           <li class="m-1">
@@ -29,5 +39,23 @@
         </li>
       </ul>
     </div>
+  </div>
+
+  <!-- モバイル用のメニュー -->
+  <div class="lg:hidden hidden" id="mobile-menu">
+    <ul class="menu menu-vertical p-0">
+      <% if admin_signed_in? %>
+        <li class="m-1">
+          <%= link_to 'ログアウト', destroy_admin_session_path, data: { turbo_method: :delete }, class: "btn btn-primary", style: "color: #DCFFB8;" %>
+        </li>
+      <% else %>
+        <li class="m-1"><a class="btn btn-primary" style="color: #DCFFB8;" href="/">管理者の方へ</a></li>
+      <% end %>
+      <li class="m-1">
+        <%= link_to users_registration_path, class: "btn btn-outline btn-primary" do %>
+          従業員はコチラ
+        <% end %>
+      </li>
+    </ul>
   </div>
 </header>
