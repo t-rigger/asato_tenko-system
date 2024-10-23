@@ -81,5 +81,11 @@
     <div class="card-actions justify-end">
       <%= f.submit msg, class: "btn btn-primary" %>
     </div>
+
+    <% if !alarm.new_record? %>
+      <div class="card-footer text-center mb-3">
+        <%= link_to "削除", admins_user_alarm_path(alarm.user, alarm), data: {turbo_confirm: "一度削除すると元に戻せません。よろしいですか？", turbo_method: :delete }, class: "text-red-500 text-sm" %>
+      </div>
+    <% end %>
   </div>
 <% end %>

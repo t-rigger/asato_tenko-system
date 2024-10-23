@@ -24,6 +24,9 @@
           </div>
         <% end %>
       </div>
+      <div class="card-footer text-center mb-3">
+        <%= link_to "徐名", admins_user_path(@user), data: {turbo_confirm: "一度除名すると元に戻せません。よろしいですか？", turbo_method: :delete }, class: "text-red-500 text-sm" %>
+      </div>
     </div>
   </div>
 </div>
