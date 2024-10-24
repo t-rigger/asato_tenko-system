@@ -29,7 +29,7 @@ namespace :send_alarm do
         # LINE IDを取得
         uid = alarm.user.uid
         # 通知するメッセージ
-        message_text = "出勤前の点呼をお願いします。\n\n"
+        message_text = "#{now.strftime('%Y/%m/%d %H:%M')} #{days[wday]} 出勤前の点呼をお願いします。\n\n"
         # LINEメッセージのボディ
         body = {
           to: uid,

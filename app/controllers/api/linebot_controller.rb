@@ -44,6 +44,13 @@ class Api::LinebotController < Api::AlarmsController
   end
 
   def send_message(alarm)
+    # 現在時刻の取得
+    now = Time.current
+
+    # 曜日の取得
+    days = ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"]
+    wday = now.wday
+
     # pushメッセージに必要な情報も用意しておく
     url = "https://api.line.me/v2/bot/message/push"
     channel_access_token = ENV["CHANNEL_ACCESS_TOKEN"]
@@ -51,7 +58,7 @@ class Api::LinebotController < Api::AlarmsController
     # LINE IDを取得
     uid = alarm.user.uid
     # 通知するメッセージ
-    message_text = "点呼を完了しました。本日も安全運転でよろしくお願いいたします。"
+    message_text = "#{now.strftime('%Y/%m/%d %H:%M')} #{days[wday]} 点呼を完了しました。本日も安全運転でよろしくお願いいたします。"
 
     body = {
       to: uid,
