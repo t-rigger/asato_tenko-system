@@ -1,2 +1,2 @@
-class Api::AlarmsController < ApplicationController
+class Api::ApplicationController < ApplicationController
 end

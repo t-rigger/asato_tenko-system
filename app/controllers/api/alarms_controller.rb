@@ -1,4 +1,4 @@
-class Api::AlarmsController < ApplicationController
+class Api::AlarmsController < Api::ApplicationController
 
   def update
     @user = User.find(params[:user_id])
