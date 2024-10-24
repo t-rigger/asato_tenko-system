@@ -31,5 +31,5 @@ set :output, "#{Rails.root}/log/crontab.log" # cronのログ出力用ファイ�
 env :PATH, "/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
 
 every 1.minute do # タスクの実行間隔
-  rake "send_alarm:purge" # ← rake "タスクのファイル名 : タスク名"
+  rake "send_alarm:execute" # ← rake "タスクのファイル名 : タスク名"
 end
