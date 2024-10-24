@@ -35,8 +35,19 @@ namespace :send_alarm do
           to: uid,
           messages: [
             {
-              "type": "text",
-              "text": message_text
+              "type": "template",
+              "altText": "点呼のお願いです",
+              "template": {
+                "type": "buttons",
+                "text": message_text,
+                "actions": [
+                  {
+                    "type": "postback",
+                    "label": "点呼完了",
+                    "data": "action=complete_check&alarm_id=#{alarm.id}"
+                  }
+                ]
+              }
             }
           ]
         }

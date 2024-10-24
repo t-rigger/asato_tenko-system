@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       resources :users, only: %i() do
         resources :alarms, only: %i(update)
       end
+      post '/line/webhook', to: 'linebot#webhook'
     end
   end
 end
