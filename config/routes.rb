@@ -16,7 +16,8 @@ Rails.application.routes.draw do
 
   devise_for :admins, :controllers => {
     sessions: 'admins/sessions',
-    passwords: 'admins/passwords'
+    passwords: 'admins/passwords',
+    invitations: 'admins/invitations'
   }
 
   devise_scope :user do

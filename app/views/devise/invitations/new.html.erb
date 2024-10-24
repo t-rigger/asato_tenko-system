@@ -1,0 +1,37 @@
+<%= render "shared/header" %>
+<div class="hero min-h-screen bg-base-200">
+  <div class="w-screen px-4 my-12 max-w-sm">
+    <h1 class="text-3xl font-bold text-center mb-4">管理者の招待</h1>
+    <p class="mb-3 text-sm">招待したい管理者のメールアドレスをご入力ください。入力されたメールアドレスに、パスワード設定用のメールが送信されます。</p>
+    <div class="card flex-shrink-0 w-full shadow bg-base-100 mx-auto">
+      <div class="card-body">
+        <%= form_for(resource, as: resource_name, url: invitation_path(resource_name), html: { method: :post }) do |f| %>
+          <% if resource.errors.any? %>
+            <div id="error_explanation" data-turbo-cache="false">
+              <ul>
+                <% resource.errors.full_messages.each do |message| %>
+                  <li class="text-xs text-red-600"><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <% resource.class.invite_key_fields.each do |field| -%>
+            <div class="form-control">
+              <%= f.label field, class: "label" do %>
+                <span class="label-text">メールアドレス</span>
+              <% end %>
+              <%= f.email_field field, class: "input input-bordered" %>
+            </div>
+          <% end -%>
+
+          <div class="form-control mt-6">
+            <%= f.submit t("devise.invitations.new.submit_button"), class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "shared/footer" %>

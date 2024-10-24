@@ -7,9 +7,9 @@
       </figure>
       <div class="card-body">
         <h2 class="card-title">Welcome！</h2>
-        <p>点呼システムは従業員へ勤務前の点呼を自動で行うシステムです。クイックガイドで使い方を確認いただけます。</p>
+        <p>点呼システムは従業員へ勤務前の点呼を自動で行うシステムです。管理者を追加するには下記ボタンより招待を送信してください。</p>
         <div class="card-actions justify-end">
-          <button class="btn btn-primary">クイックガイドを見る</button>
+          <%= link_to "管理者を招待", new_admin_invitation_path, class: "btn btn-primary" %>
         </div>
       </div>
     </div>
