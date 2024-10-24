@@ -27,6 +27,9 @@ class Api::LinebotController < Api::ApplicationController
           logger.info "点呼完了: #{alarm.user.name}さん (ID: #{alarm.id}) が点呼完了しました。"
           send_message(alarm)
 
+          admins = Admin.all
+          AlarmMailer.confirm_alarm(alarm, admins).deliver_now
+
         end
       end
     end
