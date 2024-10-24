@@ -6,7 +6,7 @@ class AlarmMailer < ApplicationMailer
 
     mail(
       from: email_address_with_name('no-reply@yukimi-corp.com', '幸美商事点呼システム'),
-      to: @user.email
+      to: @user.email,
       subject: "【重要】出勤前点呼のお願い"
     )
   end

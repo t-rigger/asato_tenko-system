@@ -22,44 +22,49 @@ namespace :send_alarm do
     if @alarms.present?
       @alarms.each do |alarm|
 
-        # pushメッセージに必要な情報も用意しておく
-        url = "https://api.line.me/v2/bot/message/push"
-        channel_access_token = ENV["CHANNEL_ACCESS_TOKEN"]
+        # 点呼方法によって分岐
+        if alarm.line?
+          # pushメッセージに必要な情報も用意しておく
+          url = "https://api.line.me/v2/bot/message/push"
+          channel_access_token = ENV["CHANNEL_ACCESS_TOKEN"]
 
-        # LINE IDを取得
-        uid = alarm.user.uid
-        # 通知するメッセージ
-        message_text = "#{now.strftime('%Y/%m/%d %H:%M')} #{days[wday]} 出勤前の点呼をお願いします。\n\n"
-        # LINEメッセージのボディ
-        body = {
-          to: uid,
-          messages: [
-            {
-              "type": "template",
-              "altText": "点呼のお願いです",
-              "template": {
-                "type": "buttons",
-                "text": message_text,
-                "actions": [
-                  {
-                    "type": "postback",
-                    "label": "点呼完了",
-                    "data": "action=complete_check&alarm_id=#{alarm.id}"
-                  }
-                ]
+          # LINE IDを取得
+          uid = alarm.user.uid
+          # 通知するメッセージ
+          message_text = "#{now.strftime('%Y/%m/%d %H:%M')} #{days[wday]} 出勤前の点呼をお願いします。\n\n"
+          # LINEメッセージのボディ
+          body = {
+            to: uid,
+            messages: [
+              {
+                "type": "template",
+                "altText": "点呼のお願いです",
+                "template": {
+                  "type": "buttons",
+                  "text": message_text,
+                  "actions": [
+                    {
+                      "type": "postback",
+                      "label": "点呼完了",
+                      "data": "action=complete_check&alarm_id=#{alarm.id}"
+                    }
+                  ]
+                }
               }
-            }
-          ]
-        }
-        # LINE APIにリクエストを送信
-        response = HTTP.auth("Bearer #{channel_access_token}")
-        .headers(content_type: "application/json", accept: "application/json")
-        .post(url, body: body.to_json)
+            ]
+          }
+          # LINE APIにリクエストを送信
+          response = HTTP.auth("Bearer #{channel_access_token}")
+          .headers(content_type: "application/json", accept: "application/json")
+          .post(url, body: body.to_json)
 
-        if response.status.success?
-          puts "#{now.strftime('%Y/%m/%d %H:%M:%S')} #{days[wday]} #{alarm.user.name}さんに点呼を送信完了"
-        else
-          puts "点呼の送信に失敗しました: #{response.body.to_s}"
+          if response.status.success?
+            puts "#{now.strftime('%Y/%m/%d %H:%M:%S')} #{days[wday]} #{alarm.user.name}さんに点呼を送信完了"
+          else
+            puts "点呼の送信に失敗しました: #{response.body.to_s}"
+          end
+        elsif alarm.email?
+          AlarmMailer.send_alarm(alarm).deliver_now
         end
       end
     else
