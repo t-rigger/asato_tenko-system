@@ -1,5 +1,5 @@
 class Alarm < ApplicationRecord
-  scope :enabled, -> { where(enabled: true)}
+  scope :enabled_alarms, -> { where(enabled: true)}
 
   belongs_to :user
 

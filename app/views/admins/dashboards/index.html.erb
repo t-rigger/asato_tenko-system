@@ -87,9 +87,14 @@
                 設定なし
               <% end %>
             </p>
+
             <!-- 点呼のオン/オフボタン -->
             <div class="mt-4">
-              <%= link_to alarm.enabled ? "点呼をオフにする" : "点呼をオンにする", api_user_alarm_path(alarm.user, alarm), data: {turbo_method: :patch}, class: "btn btn-outline btn-sm" %>
+              <% if alarm.enabled? %>
+                <%= link_to "点呼をオフにする", api_user_alarm_path(alarm.user, alarm, enabled: false), data: {turbo_method: :patch}, class: "btn btn-outline btn-sm" %>
+              <% else %>
+                <%= link_to "点呼をオンにする", api_user_alarm_path(alarm.user, alarm, enabled: true), data: {turbo_method: :patch}, class: "btn btn-outline btn-sm" %>
+              <% end %>
             </div>
 
             <!-- 編集ボタン -->
