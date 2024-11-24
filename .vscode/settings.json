@@ -1,0 +1,11 @@
+{
+  "files.insertFinalNewline": true,             // ファイルの末尾に自動的に改行を追加
+  "files.trimTrailingWhitespace": true,         // 行末の不要なスペースを削除
+  "files.trimFinalNewlines": true,              // ファイル末尾の不要な改行を削除
+  "[ruby]": {
+    "editor.tabSize": 2,                           // Rubyファイルのタブサイズを2スペースに設定
+    "editor.defaultFormatter": "Shopify.ruby-lsp"  // RubyファイルのフォーマッタとしてShopifyのRuby LSPを使用
+  },
+  "rubyLsp.rubyVersionManager": "rvm",          // Rubyのバージョン管理としてRVMを使用
+  "rubyLsp.formatter": "auto"                  // 自動でフォーマッタを選択
+}

@@ -26,7 +26,7 @@ gem 'line-bot-api'
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "brakeman", require: false
-  gem 'rspec-rails', '~> 7.0.0'
+  gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
@@ -46,4 +46,3 @@ group :development do
   gem 'binding_of_caller'
   gem 'annotate'
 end
-

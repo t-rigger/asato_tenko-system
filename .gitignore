@@ -16,8 +16,6 @@ rerun.txt
 pickle-email-*.html
 /db/fixtures/csv/*
 *.DS_Store
-.rubocop.yml
-.rubocop_todo.yml
 *.csv
 
 # Ignore all logfiles and tempfiles.

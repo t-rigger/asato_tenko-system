@@ -1,86 +1,68 @@
-// devcontainer.jsonの設定ファイル。VSCodeがDockerコンテナに接続し、開発環境を構築するための設定を記述。
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ruby-rails-postgres
 {
-	// VSCodeの上部バーに表示される名前。開発環境を識別するために使用。
-	"name": "幸美商事 点呼システム",
-
-	// 利用するdocker-compose.ymlのファイルパスを指定。
-	"dockerComposeFile": "docker-compose.yml",
-
-	// VSCodeが接続するサービス名。docker-compose.yml内で定義されたサービス名を指定。
-	"service": "app",
-
-	// コンテナ内で開くワークスペースフォルダのパス。`${localWorkspaceFolderBasename}`はホスト側のワークスペース名を利用。
-	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-
-	// コンテナ内で設定する環境変数。ここではRAILS_ENVを"development"に設定。
-	"containerEnv": {
-    "RAILS_ENV": "development"
+	// プロジェクト名
+  "name": "幸美商事点呼システム",
+  // 使用するDocker Composeファイルを指定
+  "dockerComposeFile": "docker-compose.yml",
+  // 開発環境のメインサービスとして起動するコンテナの名前
+  "service": "app",
+  // ワークスペースのフォルダ設定
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  // 使用するDev Containerの「機能」追加
+  "features": {
+    // Rubyをインストール
+    "ghcr.io/devcontainers/features/ruby:1": { "version": "3.3.5" }
   },
-
-	// ホストマシンとコンテナ間で転送するポートを指定。3000はRailsサーバー、5432はPostgreSQLに対応。
-	"forwardPorts": [
-		3000, 5432
-  ],
-
-	// コンテナ作成時に実行されるコマンド。git、vim、less、openssh-clientをインストール。
-	"onCreateCommand": "apt update && apt -y upgrade && apt install -y git vim less openssh-client cron || true",
-
-	// VSCodeがコンテナにアタッチした際に実行されるコマンド。以前に起動されたRailsサーバープロセスを終了させる処理。
-	"postAttachCommand": "kill $(ps aux | grep 'rails' | grep -v 'grep' | awk '{print $2}') || true && sleep 1",
-
-	// コンテナ作成後に実行されるコマンド。boot.shに記載
-	"postCreateCommand": ".devcontainer/boot.sh",
-
-	// VSCodeのカスタマイズ設定。拡張機能やエディタの設定を指定。
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"aliariff.vscode-erb-beautify",
-				"streetsidesoftware.code-spell-checker",
-				"formulahendry.code-runner",
-				"mikestead.dotenv",
-				"janisdd.vscode-edit-csv",
-				"kaiwood.endwise",
-				"CraigMaslowski.erb",
-				"waderyan.gitblame",
-				"mhutchie.git-graph",
-				"donjayamanne.githistory",
-				"github.vscode-github-actions",
-				"GitHub.vscode-pull-request-github",
-				"codezombiech.gitignore",
-				"eamodio.gitlens",
-				"seatonjiang.gitmoji-vscode",
-				"ecmel.vscode-html-css",
-				"oderwat.indent-rainbow",
-				"christian-kohler.path-intellisense",
-				"esbenp.prettier-vscode",
-				"benspaulding.procfile",
-				"bung87.rails",
-				"mechatroner.rainbow-csv",
-				"Shopify.ruby-extensions-pack",
-				"Cjay.ruby-and-rails-snippets",
-				"Shopify.ruby-lsp",
-				"Hridoy.rails-snippets",
-				"sorbet.sorbet-vscode-extension",
-				"sianglim.slim",
-				"TabNine.tabnine-vscode",
-				"shardulm94.trailing-spaces",
-				"bung87.vscode-gemfile",
-				"vscode-icons-team.vscode-icons",
-				"redhat.vscode-yaml",
-				"ms-vscode-remote.vscode-remote-extensionpack"
-			]
-		},
-		// VSCodeの設定。ファイルの自動保存と監視除外を設定。
-		"settings": {
-			"files.autoSave": "afterDelay", // ファイルを一定時間経過後に自動保存。
-			"files.watcherExclude": { // ファイル監視の除外設定。Gitのオブジェクトやキャッシュを対象外にする。
-				"**/.git/objects/**": true,
-				"**/.git/subtree-cache/**": true
-			}
-		}
+  // VS Codeの設定と拡張機能のカスタマイズ
+  "customizations": {
+    "vscode": {
+      // コンテナ作成時に適用されるデフォルトの設定
+      "settings": {
+        // ターミナルのデフォルトシェルをzshに設定
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/zsh",
+            "args": ["-l"]
+          }
+        },
+        // 保存時に自動フォーマット
+        "editor.formatOnSave": true
+      },
+      // コンテナ作成時にインストールする拡張機能のID一覧
+      "extensions": [
+				"ms-ceintl.vscode-language-pack-ja",     // VS Codeの日本語言語パック
+				"bung87.rails",                          // Ruby on Railsのサポート
+				"bung87.vscode-gemfile",                 // Gemfileのシンタックスハイライトとサポート
+				"cjay.ruby-and-rails-snippets",          // RubyとRailsのコードスニペット
+				"craigmaslowski.erb",                    // ERBファイルのサポート
+				"aliariff.vscode-erb-beautify",          // ERBファイルのフォーマットツール
+				"hridoy.rails-snippets",                 // Rails用スニペット集
+				"vense.rails-snippets",                  // Rails用のコードスニペット
+				"vortizhe.simple-ruby-erb",              // RubyとERBファイルのサポート
+				"Shopify.ruby-lsp",                 		 // RubyのLintツール
+				"donjayamanne.githistory",               // Git履歴を視覚的に表示
+				"eamodio.gitlens",                       // Gitの拡張ツールGitLens
+				"mhutchie.git-graph",                    // Gitの視覚化ツールGit Graph
+				"seatonjiang.gitmoji-vscode",            // Gitmojiのサポートでコミットに絵文字を追加
+				"waderyan.gitblame",                     // Gitのコミット責任者を表示
+				"codezombiech.gitignore",                // .gitignoreファイルのサポート
+				"esbenp.prettier-vscode",                // コード整形ツールPrettier
+				"kaiwood.endwise",                       // endキーワードを自動で追加
+				"mikestead.dotenv",                      // .envファイルのサポート
+				"oderwat.indent-rainbow",                // インデントを色分け表示
+				"shardulm94.trailing-spaces",            // 行末の不要なスペースの表示
+				"vscode-icons-team.vscode-icons"         // アイコンパック
+      ]
+    }
+  },
+  // "initializeCommand": "docker network create --driver bridge sample-app-cloud-common",
+  // コンテナ作成後に実行されるコマンド
+  "postCreateCommand": "./.devcontainer/boot.sh",
+	"hostRequirements": {
+		"memory": "4gb"
 	},
-
-	// コンテナ内で使用するデフォルトのユーザーを指定。
-	"remoteUser": "root"
+  "forwardPorts": [ 3000, 5432, 8081 ],
+  // 非rootユーザーで接続する設定。
+  "remoteUser": "vscode"
 }

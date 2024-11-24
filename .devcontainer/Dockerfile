@@ -1,19 +1,16 @@
-FROM mcr.microsoft.com/devcontainers/ruby:3.3-bullseye
+# 最新のVS Code Dev Containerのベースイメージを使用
+FROM mcr.microsoft.com/vscode/devcontainers/base:latest
 
-# Install Rails　with versions
-RUN su vscode -c "gem install -v 7.2.1 rails"
-RUN su vscode -c "/usr/local/rvm/bin/rvm fix-permissions"
+# apt-getのインストール処理を自動で進行できるように
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Default value to allow debug server to serve content over GitHub Codespace's port forwarding service
-# The value is a comma-separated list of allowed domains
-ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.preview.app.github.dev,.app.github.dev"
+# 必要パッケージのインストールと不要ファイルのクリーンアップ
+RUN apt-get update && \
+    apt-get -y install --no-install-recommends \
+        git git-lfs libpq-dev openssh-client imagemagick libvips libvips42 graphviz vim less && \
+    apt-get autoremove -y && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/*
 
-# [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
-
-# [Optional] Uncomment this line to install additional gems.
-# RUN su vscode -c "gem install <your-gem-names-here>"
-
-# [Optional] Uncomment this line to install global node packages.
-# RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
+# インタラクティブプロンプト設定を元に戻す
+ENV DEBIAN_FRONTEND=dialog
