@@ -44,7 +44,7 @@ Rails.application.configure do
   # config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  config.force_ssl = false
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
@@ -94,4 +94,19 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  config.action_mailer.default_url_options = { protocol: "https", host: ENV["GMAIL_HOST"] }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.perform_caching = false
+  config.action_mailer.smtp_settings = {
+    port: 587,
+    address:"smtp.gmail.com",
+    domain: "gmail.com",                # Gmailを使う場合
+    user_name: ENV["GMAIL_ADDRESS"],    # Gmailアカウントのメールアドレス
+    password: ENV["GMAIL_PASSWORD"],    # Gmailで設定したアプリパスワード
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 end
