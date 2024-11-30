@@ -6,7 +6,12 @@ set :environment, rails_env # cronを実行する環境変数をセット
 
 set :output, "#{Rails.root}/log/crontab.log" # cronのログ出力用ファイル
 
-env :PATH, "/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
+if rails_env == "development"
+  env :PATH, "/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
+else
+  env :PATH, ENV['PATH']
+  job_type :rbenv_rake, %q!eval "$(rbenv init -)"; cd :path && :environment_variable=:environment bundle exec rake :task --silent :output!
+end
 
 every 1.minute do # タスクの実行間隔
   rake "send_alarm:execute" # ← rake "タスクのファイル名 : タスク名"
