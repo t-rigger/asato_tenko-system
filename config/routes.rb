@@ -29,8 +29,6 @@ Rails.application.routes.draw do
     omniauth_callbacks: "omniauth_callbacks"
   }
 
-  get '/alarms/confirmed', to:'alarms/email#create'
-
   namespace :admins do
     scope :v1 do
       resources :dashboards, only: [:index]
@@ -45,8 +43,10 @@ Rails.application.routes.draw do
       resources :users, only: %i() do
         resources :alarms, only: %i(update)
       end
-      post '/line/webhook',  to: 'linebot#webhook'
-      post '/email/webhook', to: 'email#webhook'
+      # LINEでの点呼確認
+      get '/line/webhook',  to: 'linebot#webhook'
+      # Emailでの点呼確認
+      get '/email/webhook', to: 'email#webhook'
     end
   end
 end

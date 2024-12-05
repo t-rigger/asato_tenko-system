@@ -36,9 +36,9 @@ namespace :send_alarm do
                     "text": message_text,
                     "actions": [
                       {
-                        "type": "postback",
+                        "type": "uri",
                         "label": "点呼完了",
-                        "data": "action=complete_check&alarm_id=#{alarm.id}"
+                        "uri": "#{ENV["URL"]}/api/v1/line/webhook?alarm_id=#{alarm.id}"
                       }
                     ]
                   }

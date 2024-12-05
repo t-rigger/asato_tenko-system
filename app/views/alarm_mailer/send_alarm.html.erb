@@ -3,7 +3,7 @@
 <p>出勤時には、以下のボタンをクリックして点呼をお願いします。</p>
 
 <p>
-  <%= button_to @url, data: {turbo: false}, style: "display: inline-block; padding: 10px 20px; background-color: #213F7E; color: white; text-align: center; text-decoration: none; border-radius: 5px;" do %>
+  <%= link_to @url, data: {turbo: false}, style: "display: inline-block; padding: 10px 20px; background-color: #213F7E; color: white; text-align: center; text-decoration: none; border-radius: 5px;" do %>
     点呼を行う
   <% end %>
 </p>
