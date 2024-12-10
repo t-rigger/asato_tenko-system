@@ -6,34 +6,28 @@ services:
     volumes:
       - ../..:/workspaces:cached
     command: sleep infinity
-    network_mode: service:postgres
+    ports:
+      - "3000:3000"
 
   postgres:
     image: postgres:16-alpine
+    restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./create-db-user.sql:/docker-entrypoint-initdb.d/create-db-user.sql
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: postgres
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "5432:5432"
 
-  pgweb:
-    image: sosedoff/pgweb:0.14.0
-    ports:
-      - "8081:8081"
-    environment:
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable
-    depends_on:
-      postgres:
-        condition: service_healthy
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
 
 volumes:
   postgres-data:
+  redis-data:

@@ -1,68 +1,69 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/ruby-rails-postgres
 {
-	// プロジェクト名
   "name": "幸美商事点呼システム",
-  // 使用するDocker Composeファイルを指定
   "dockerComposeFile": "docker-compose.yml",
-  // 開発環境のメインサービスとして起動するコンテナの名前
   "service": "app",
-  // ワークスペースのフォルダ設定
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-  // 使用するDev Containerの「機能」追加
   "features": {
-    // Rubyをインストール
-    "ghcr.io/devcontainers/features/ruby:1": { "version": "3.3.5" }
-  },
-  // VS Codeの設定と拡張機能のカスタマイズ
-  "customizations": {
-    "vscode": {
-      // コンテナ作成時に適用されるデフォルトの設定
-      "settings": {
-        // ターミナルのデフォルトシェルをzshに設定
-        "terminal.integrated.profiles.linux": {
-          "bash": {
-            "path": "/bin/zsh",
-            "args": ["-l"]
-          }
-        },
-        // 保存時に自動フォーマット
-        "editor.formatOnSave": true
+      // See https://containers.dev/features for list of features
+      "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
+          "username": "vscode",
+          "plugins": "ruby rails bundler"
       },
-      // コンテナ作成時にインストールする拡張機能のID一覧
-      "extensions": [
-				"ms-ceintl.vscode-language-pack-ja",     // VS Codeの日本語言語パック
-				"bung87.rails",                          // Ruby on Railsのサポート
-				"bung87.vscode-gemfile",                 // Gemfileのシンタックスハイライトとサポート
-				"cjay.ruby-and-rails-snippets",          // RubyとRailsのコードスニペット
-				"craigmaslowski.erb",                    // ERBファイルのサポート
-				"aliariff.vscode-erb-beautify",          // ERBファイルのフォーマットツール
-				"hridoy.rails-snippets",                 // Rails用スニペット集
-				"vense.rails-snippets",                  // Rails用のコードスニペット
-				"vortizhe.simple-ruby-erb",              // RubyとERBファイルのサポート
-				"Shopify.ruby-lsp",                 		 // RubyのLintツール
-				"donjayamanne.githistory",               // Git履歴を視覚的に表示
-				"eamodio.gitlens",                       // Gitの拡張ツールGitLens
-				"mhutchie.git-graph",                    // Gitの視覚化ツールGit Graph
-				"seatonjiang.gitmoji-vscode",            // Gitmojiのサポートでコミットに絵文字を追加
-				"waderyan.gitblame",                     // Gitのコミット責任者を表示
-				"codezombiech.gitignore",                // .gitignoreファイルのサポート
-				"esbenp.prettier-vscode",                // コード整形ツールPrettier
-				"kaiwood.endwise",                       // endキーワードを自動で追加
-				"mikestead.dotenv",                      // .envファイルのサポート
-				"oderwat.indent-rainbow",                // インデントを色分け表示
-				"shardulm94.trailing-spaces",            // 行末の不要なスペースの表示
-				"vscode-icons-team.vscode-icons"         // アイコンパック
-      ]
-    }
+      "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+      "ghcr.io/devcontainers/features/github-cli:1": {},
+      "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+          "packages": "git, libpq-dev, openssh-client, imagemagick, libvips, libvips42, graphviz, vim, less"
+      },
+      "ghcr.io/devcontainers/features/ruby:1": {
+          "version": "3.3.5"
+        },
+
+      "ghcr.io/devcontainers/features/common-utils:2": {
+          "username": "vscode",
+          "userUid": 1000,
+          "userGid": 1000,
+          "installZsh": true,
+          "configureZshAsDefaultShell": true,
+          "upgradePackages": true
+      }
   },
-  // "initializeCommand": "docker network create --driver bridge sample-app-cloud-common",
-  // コンテナ作成後に実行されるコマンド
-  "postCreateCommand": "./.devcontainer/boot.sh",
-	"hostRequirements": {
-		"memory": "4gb"
-	},
-  "forwardPorts": [ 3000, 5432, 8081 ],
-  // 非rootユーザーで接続する設定。
-  "remoteUser": "vscode"
+  "customizations": {
+      "vscode": {
+          "extensions": [
+              "Shopify.ruby-extensions-pack",
+              "ms-ceintl.vscode-language-pack-ja",     // VS Codeの日本語言語パック
+              "bung87.rails",                          // Ruby on Railsのサポート
+              "bung87.vscode-gemfile",                 // Gemfileのシンタックスハイライトとサポート
+              "cjay.ruby-and-rails-snippets",          // RubyとRailsのコードスニペット
+              "craigmaslowski.erb",                    // ERBファイルのサポート
+              "aliariff.vscode-erb-beautify",          // ERBファイルのフォーマットツール
+              "hridoy.rails-snippets",                 // Rails用スニペット集
+              "vense.rails-snippets",                  // Rails用のコードスニペット
+              "vortizhe.simple-ruby-erb",              // RubyとERBファイルのサポート
+              "Shopify.ruby-lsp",                 		 // RubyのLintツール
+              "donjayamanne.githistory",               // Git履歴を視覚的に表示
+              "eamodio.gitlens",                       // Gitの拡張ツールGitLens
+              "mhutchie.git-graph",                    // Gitの視覚化ツールGit Graph
+              "seatonjiang.gitmoji-vscode",            // Gitmojiのサポートでコミットに絵文字を追加
+              "waderyan.gitblame",                     // Gitのコミット責任者を表示
+              "codezombiech.gitignore",                // .gitignoreファイルのサポート
+              "esbenp.prettier-vscode",                // コード整形ツールPrettier
+              "kaiwood.endwise",                       // endキーワードを自動で追加
+              "mikestead.dotenv",                      // .envファイルのサポート
+              "oderwat.indent-rainbow",                // インデントを色分け表示
+              "shardulm94.trailing-spaces",            // 行末の不要なスペースの表示
+              "vscode-icons-team.vscode-icons"         // アイコンパック
+          ]
+      }
+  },
+  "forwardPorts": [
+    3000, 5432
+  ],
+  "postCreateCommand": ".devcontainer/post-create.sh",
+  "remoteUser": "vscode",
+  "hostRequirements": {
+      "memory": "4gb"
+  }
 }
