@@ -53,14 +53,14 @@ namespace :send_alarm do
             if response.status.success?
               puts "#{now.strftime('%Y/%m/%d %H:%M:%S')} #{days[wday]} #{alarm.user.name}さんにLINEで点呼を送信完了"
             else
-              puts "点呼の送信に失敗しました: #{response.body.to_s}"
+              puts "LINE点呼の送信に失敗しました: #{response.body.to_s}"
             end
           end
 
           # Email通知の処理
           if alarm.email?
             AlarmMailer.send_alarm(alarm).deliver_now
-            puts "#{now.strftime('%Y/%m/%d %H:%M:%S')} #{days[wday]} #{alarm.user.name}さんにメールを送信完了"
+            puts "#{now.strftime('%Y/%m/%d %H:%M:%S')} #{days[wday]} #{alarm.user.name}さんにメール点呼を送信完了"
           end
 
         end
