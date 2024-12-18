@@ -39,6 +39,11 @@ class Api::LinebotController < Api::ApplicationController
       logger.error "LINE点呼完了通知の送信に失敗しました: #{response.body.to_s}"
       return false
     end
+
+    # 管理者にはLINEで点呼完了通知
+    send_line_for_done_alarm(@alarm)
+    # 管理者にはメール通知
+    send_email_for_done_alarm(@alarm)
   end
 
   private
