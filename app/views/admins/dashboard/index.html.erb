@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>シフト管理ダッシュボード</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f7fa;
+    }
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logout-btn {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: 1px solid white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .container {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+    .controls {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .month-selector {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .month-selector select {
+      padding: 0.5rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    .shift-table-container {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      overflow-x: auto;
+    }
+    .shift-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px;
+    }
+    .shift-table th,
+    .shift-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    .shift-table th {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #333;
+    }
+    .shift-table tr:hover {
+      background: #f8f9fa;
+    }
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: #667eea;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-content">
+      <h1>📅 シフト管理ダッシュボード</h1>
+      <div>
+        <%= link_to "QRコード表示", root_path, class: "logout-btn", style: "margin-right: 1rem;" %>
+        <%= link_to "ログアウト", destroy_admin_session_path, data: { turbo_method: :delete }, class: "logout-btn" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="controls">
+      <div class="month-selector">
+        <label for="month-select">表示月:</label>
+        <select id="month-select">
+          <!-- JavaScript で動的に生成 -->
+        </select>
+        <button onclick="loadShiftData()" style="padding: 0.5rem 1.5rem; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">読み込み</button>
+      </div>
+    </div>
+
+    <div class="shift-table-container">
+      <div id="shift-content">
+        <p class="loading">月を選択して「読み込み」をクリックしてください</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const GAS_API_URL = "<%= ENV['GAS_API_URL'] || 'https://script.google.com/macros/s/AKfycbwMLJIVKmo2syvFnWKNvke4_VahRwftJFEec6AGSf2jerk7qabHqj_LdCERBTVaGK4d/exec' %>";
+
+    // 月セレクターの初期化
+    function initMonthSelector() {
+      const select = document.getElementById('month-select');
+      const now = new Date();
+      
+      // 現在月から6ヶ月分を生成
+      for (let i = 0; i < 6; i++) {
+        const date = new Date(now.getFullYear(), now.getMonth() + i, 1);
+        const yy = String(date.getFullYear()).slice(-2);
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const yymm = yy + mm;
+        const displayText = `${date.getFullYear()}年${date.getMonth() + 1}月`;
+        
+        const option = document.createElement('option');
+        option.value = yymm;
+        option.textContent = displayText;
+        select.appendChild(option);
+      }
+    }
+
+    // シフトデータの読み込み
+    async function loadShiftData() {
+      const month = document.getElementById('month-select').value;
+      const contentDiv = document.getElementById('shift-content');
+      
+      contentDiv.innerHTML = '<p class="loading">読み込み中...</p>';
+      
+      try {
+        const response = await fetch(`${GAS_API_URL}?action=get_shifts&month=${month}`);
+        const json = await response.json();
+        
+        if (json.status === 'success' && json.data) {
+          renderShiftTable(json.data);
+        } else {
+          contentDiv.innerHTML = '<p style="color: red;">データの取得に失敗しました</p>';
+        }
+      } catch (error) {
+        console.error("Error loading shifts:", error);
+        contentDiv.innerHTML = '<p style="color: red;">通信エラーが発生しました</p>';
+      }
+    }
+
+    // シフト表の描画
+    function renderShiftTable(users) {
+      const contentDiv = document.getElementById('shift-content');
+      
+      if (!users || users.length === 0) {
+        contentDiv.innerHTML = '<p>データがありません</p>';
+        return;
+      }
+
+      // 日付の一覧を取得（最初のユーザーから）
+      const dates = users[0].shifts ? Object.keys(users[0].shifts).sort((a, b) => parseInt(a) - parseInt(b)) : [];
+
+      let html = '<table class="shift-table"><thead><tr>';
+      html += '<th>名前</th>';
+      dates.forEach(date => {
+        html += `<th>${date}日</th>`;
+      });
+      html += '</tr></thead><tbody>';
+
+      users.forEach(user => {
+        html += '<tr>';
+        html += `<td><strong>${user.userName || '未登録'}</strong></td>`;
+        dates.forEach(date => {
+          const time = user.shifts[date] || '-';
+          html += `<td>${time}</td>`;
+        });
+        html += '</tr>';
+      });
+
+      html += '</tbody></table>';
+      contentDiv.innerHTML = html;
+    }
+
+    // 初期化
+    document.addEventListener('DOMContentLoaded', () => {
+      initMonthSelector();
+    });
+  </script>
+</body>
+</html>

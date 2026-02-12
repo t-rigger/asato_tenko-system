@@ -1,52 +1,26 @@
 Rails.application.routes.draw do
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Health check
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/*
+  # PWA files
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
+  # Development tools
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
-  # rootをログイン画面に設定
-  devise_scope :admin do
-    root "admins/sessions#new"
-  end
+  # Public QR display page (root)
+  root "pages#qr_display"
 
-  devise_for :admins, :controllers => {
+  # Admin authentication
+  devise_for :admins, controllers: {
     sessions: 'admins/sessions',
     passwords: 'admins/passwords',
     invitations: 'admins/invitations'
   }
 
-  devise_scope :user do
-    get "users/registration", to: "omniauth_callbacks#new"
-    get "users/registration/complete", to: "omniauth_callbacks#complete"
-  end
-
-  devise_for :users, controllers: {
-    omniauth_callbacks: "omniauth_callbacks"
-  }
-
+  # Admin dashboard
   namespace :admins do
-    scope :v1 do
-      resources :dashboards, only: [:index]
-      resources :users, only: %i(show edit update destroy) do
-        resources :alarms, only: %i(new create edit update destroy)
-      end
-    end
-  end
-
-  namespace :api do
-    scope :v1 do
-      resources :users, only: %i() do
-        resources :alarms, only: %i(update)
-      end
-      # LINEでの点呼確認
-      get '/line/webhook',  to: 'linebot#webhook'
-      # Emailでの点呼確認
-      get '/email/webhook', to: 'email#webhook'
-    end
+    get 'dashboard', to: 'dashboard#index'
   end
 end

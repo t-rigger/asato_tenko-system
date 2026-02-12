@@ -21,7 +21,7 @@ class Admins::SessionsController < Devise::SessionsController
   protected
 
   def after_sign_in_path_for(resource)
-    admins_dashboards_path
+    admins_dashboard_path
   end
 
   # If you have extra params to permit, append them to the sanitizer.

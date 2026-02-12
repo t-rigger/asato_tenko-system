@@ -2,7 +2,7 @@
   <div class="navbar bg-base-100">
     <div class="flex-1">
       <% if admin_signed_in? %>
-        <%= link_to admins_dashboards_path, class: "btn btn-ghost normal-case text-xl" do %>
+        <%= link_to admins_dashboard_path, class: "btn btn-ghost normal-case text-xl" do %>
           <%= image_tag "logo.png", alt: "幸美商事 ロゴ", class: "w-10 h-10" %>
           点呼システム
         <% end %>
@@ -27,16 +27,15 @@
       <ul class="menu menu-horizontal p-0 mr-2">
         <% if admin_signed_in? %>
           <li class="m-1">
-            <%= link_to 'ログアウト', destroy_admin_session_path, data: { turbo_method: :delete }, class: "btn btn-primary", style: "color: #DCFFB8;" %>
+            <%= link_to 'QRコード表示', root_path, class: "btn btn-primary", style: "color: #DCFFB8;" %>
+          </li>
+          <li class="m-1">
+            <%= link_to 'ログアウト', destroy_admin_session_path, data: { turbo_method: :delete }, class: "btn btn-outline btn-primary" %>
           </li>
         <% else %>
-          <li class="m-1"><a class="btn btn-primary" style="color: #DCFFB8;" href="/">管理者の方へ</a></li>
+          <li class="m-1"><%= link_to "管理者の方へ", new_admin_session_path, class: "btn btn-primary", style: "color: #DCFFB8;" %></li>
         <% end %>
-        <li class="m-1">
-          <%= link_to users_registration_path, class: "btn btn-outline btn-primary" do %>
-            従業員はコチラ
-          <% end %>
-        </li>
+
       </ul>
     </div>
   </div>
@@ -46,20 +45,19 @@
     <ul class="menu menu-vertical p-0">
       <% if admin_signed_in? %>
         <li class="m-1">
-          <%= link_to 'ログアウト', destroy_admin_session_path, data: { turbo_method: :delete }, class: "btn btn-primary", style: "color: #DCFFB8;" %>
+          <%= link_to 'QRコード表示', root_path, class: "btn btn-primary", style: "color: #DCFFB8;" %>
+        </li>
+        <li class="m-1">
+          <%= link_to 'ログアウト', destroy_admin_session_path, data: { turbo_method: :delete }, class: "btn btn-outline btn-primary" %>
         </li>
       <% else %>
         <li class="m-1">
-          <%= link_to root_path, class: "btn btn-primary", style: "color: #DCFFB8;" do %>
+          <%= link_to new_admin_session_path, class: "btn btn-primary", style: "color: #DCFFB8;" do %>
             管理者の方へ
           <% end %>
         </li>
       <% end %>
-      <li class="m-1">
-        <%= link_to users_registration_path, class: "btn btn-outline btn-primary" do %>
-          従業員はコチラ
-        <% end %>
-      </li>
+
     </ul>
   </div>
 </header>

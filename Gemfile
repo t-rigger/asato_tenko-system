@@ -17,11 +17,7 @@ gem "tailwindcss-rails"
 gem "devise"
 gem 'devise-i18n'
 gem 'devise_invitable', '~> 2.0.0'
-gem 'omniauth-line'
-gem 'omniauth-rails_csrf_protection'
 gem "http"
-gem "whenever", require: false
-gem 'line-bot-api'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

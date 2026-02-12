@@ -12,11 +12,10 @@
 
     <link rel="manifest" href="/manifest.json">
     <%= favicon_link_tag 'favicon.ico' %>
-    <!-- TailwindCSS + DaisyUI -->
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <!-- TailwindCSS + DaisyUI (CDN) -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.13/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- TailwindCSS + DaisyUI -->
+    
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
