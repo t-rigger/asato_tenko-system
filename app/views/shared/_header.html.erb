@@ -30,10 +30,10 @@
             <%= link_to 'QRコード表示', root_path, class: "btn btn-primary", style: "color: #DCFFB8;" %>
           </li>
           <li class="m-1">
-            <%= link_to 'ログアウト', destroy_admin_session_path, data: { turbo_method: :delete }, class: "btn btn-outline btn-primary" %>
+            <%= link_to 'ログアウト', admins_logout_path, data: { turbo_method: :delete }, class: "btn btn-outline btn-primary" %>
           </li>
         <% else %>
-          <li class="m-1"><%= link_to "管理者の方へ", new_admin_session_path, class: "btn btn-primary", style: "color: #DCFFB8;" %></li>
+          <li class="m-1"><%= link_to "管理者の方へ", admins_login_path, class: "btn btn-primary", style: "color: #DCFFB8;" %></li>
         <% end %>
 
       </ul>
@@ -48,11 +48,11 @@
           <%= link_to 'QRコード表示', root_path, class: "btn btn-primary", style: "color: #DCFFB8;" %>
         </li>
         <li class="m-1">
-          <%= link_to 'ログアウト', destroy_admin_session_path, data: { turbo_method: :delete }, class: "btn btn-outline btn-primary" %>
+          <%= link_to 'ログアウト', admins_logout_path, data: { turbo_method: :delete }, class: "btn btn-outline btn-primary" %>
         </li>
       <% else %>
         <li class="m-1">
-          <%= link_to new_admin_session_path, class: "btn btn-primary", style: "color: #DCFFB8;" do %>
+          <%= link_to admins_login_path, class: "btn btn-primary", style: "color: #DCFFB8;" do %>
             管理者の方へ
           <% end %>
         </li>

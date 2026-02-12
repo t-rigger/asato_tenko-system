@@ -12,15 +12,12 @@ Rails.application.routes.draw do
   # Public QR display page (root)
   root "pages#qr_display"
 
-  # Admin authentication
-  devise_for :admins, controllers: {
-    sessions: 'admins/sessions',
-    passwords: 'admins/passwords',
-    invitations: 'admins/invitations'
-  }
-
-  # Admin dashboard
+  # Admin authentication (Stateless)
   namespace :admins do
+    get 'login', to: 'sessions#new'
+    post 'login', to: 'sessions#create'
+    match 'logout', to: 'sessions#destroy', via: [:get, :delete]
+    
     get 'dashboard', to: 'dashboard#index'
   end
 end

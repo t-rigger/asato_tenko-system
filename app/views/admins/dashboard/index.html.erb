@@ -106,7 +106,7 @@
       <h1>📅 シフト管理ダッシュボード</h1>
       <div>
         <%= link_to "QRコード表示", root_path, class: "logout-btn", style: "margin-right: 1rem;" %>
-        <%= link_to "ログアウト", destroy_admin_session_path, data: { turbo_method: :delete }, class: "logout-btn" %>
+        <%= link_to "ログアウト", admins_logout_path, data: { turbo_method: :delete }, class: "logout-btn" %>
       </div>
     </div>
   </div>
