@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     post 'login', to: 'sessions#create'
     match 'logout', to: 'sessions#destroy', via: [:get, :delete]
     
-    get 'dashboard', to: 'dashboard#index'
+    # Dashboard route is removed as per user request
+    # get 'dashboard', to: 'dashboard#index'
   end
 end

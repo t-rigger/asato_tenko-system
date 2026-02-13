@@ -3,7 +3,7 @@ class Admins::SessionsController < ApplicationController
 
   def new
     if admin_signed_in?
-      redirect_to admins_dashboard_path, notice: "すでにログインしています。"
+      redirect_to root_path, notice: "すでにログインしています。"
     end
   end
 
@@ -13,7 +13,7 @@ class Admins::SessionsController < ApplicationController
 
     if params[:email] == admin_email && params[:password] == admin_password
       session[:admin_id] = "admin"
-      redirect_to admins_dashboard_path, notice: "ログインしました。"
+      redirect_to root_path, notice: "ログインしました。"
     else
       flash.now[:alert] = "メールアドレスまたはパスワードが違います。"
       render :new, status: :unprocessable_entity
