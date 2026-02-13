@@ -131,8 +131,8 @@
     // ページ読み込み時に実行
     document.addEventListener('DOMContentLoaded', loadOptimalQrCode);
     
-    // 3秒ごとに自動更新（6人以上の登録を防ぐため）
-    setInterval(loadOptimalQrCode, 3000);
+    // 5秒ごとに自動更新（6人以上の登録を防ぐため、GAS API制限も考慮）
+    setInterval(loadOptimalQrCode, 5000);
   </script>
   <!-- qrcode.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
