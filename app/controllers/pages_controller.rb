@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  # Public page by default since ApplicationController doesn't enforce auth
+  before_action :authenticate_admin!, only: [:qr_display]
 
   def qr_display
     render layout: false
