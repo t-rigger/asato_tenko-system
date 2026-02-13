@@ -70,7 +70,6 @@
     <p id="status-message"></p>
   </div>
 
-  <script>
     // GAS API URL (環境変数から取得、または直接指定)
     const GAS_API_URL = "<%= ENV['GAS_API_URL'] || 'https://script.google.com/macros/s/AKfycbwMLJIVKmo2syvFnWKNvke4_VahRwftJFEec6AGSf2jerk7qabHqj_LdCERBTVaGK4d/exec' %>";
 
@@ -82,13 +81,32 @@
         const qrContainer = document.getElementById('qr-container');
         const statusMessage = document.getElementById('status-message');
 
+        // コンテナをクリア
+        qrContainer.innerHTML = '';
+
         if (data.isFull) {
           // 全アカウント満杯の場合
-          qrContainer.innerHTML = '';
           statusMessage.innerText = data.message || 'すべてのアカウントが満杯です';
-        } else {
-          // 空きがある場合、そのQRを表示
-          qrContainer.innerHTML = `<img id="qr-image" src="${data.qrUrl}" alt="LINE QR Code">`;
+        } else if (data.qrUrl) {
+          // 空きがある場合、そのURLを使ってQRコードを生成
+          // qrcode.jsライブラリを使用 (CDNから読み込み)
+          // 既存のimgタグではなく、新しくcanvas/imgを生成させる
+          new QRCode(qrContainer, {
+            text: data.qrUrl,
+            width: 200,
+            height: 200,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+          });
+          
+          // 下にテキストリンクも追加（念のため）
+          const link = document.createElement('a');
+          link.href = data.qrUrl;
+          link.innerText = "リンクを直接開く";
+          link.style.display = "block";
+          link.style.marginTop = "10px";
+          qrContainer.appendChild(link);
         }
       } catch (error) {
         console.error("Failed to load QR code:", error);
@@ -99,5 +117,7 @@
     // ページ読み込み時に実行
     document.addEventListener('DOMContentLoaded', loadOptimalQrCode);
   </script>
+  <!-- qrcode.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </body>
 </html>
