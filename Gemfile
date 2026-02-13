@@ -16,6 +16,7 @@ gem "dotenv"
 gem "tailwindcss-rails"
 
 gem "http"
+gem "rack-attack"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

@@ -42,6 +42,9 @@ module TenkoSystem
     # libディレクトリを自動読み込みする
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # Rack::Attackを有効化
+    config.middleware.use Rack::Attack
+
     config.generators do |g|
       g.assets false
       g.helper false
