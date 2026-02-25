@@ -1,6 +1,5 @@
 class Admins::SessionsController < ApplicationController
 
-
   def new
     if admin_signed_in?
       redirect_to root_path, notice: "すでにログインしています。"
@@ -8,10 +7,20 @@ class Admins::SessionsController < ApplicationController
   end
 
   def create
-    admin_email = ENV['ADMIN_EMAIL'] || "admin@example.com"
-    admin_password = ENV['ADMIN_PASSWORD'] || "password123"
+    admin_email    = ENV['ADMIN_EMAIL'].to_s.strip
+    admin_password = ENV['ADMIN_PASSWORD'].to_s.strip
 
-    if params[:email] == admin_email && params[:password] == admin_password
+    # 環境変数未設定はサーバーエラー
+    if admin_email.empty? || admin_password.empty?
+      render plain: "サーバー設定エラーです。", status: :internal_server_error
+      return
+    end
+
+    # タイミング攻撃対策: 定数時間比較
+    email_match    = ActiveSupport::SecurityUtils.secure_compare(params[:email].to_s, admin_email)
+    password_match = ActiveSupport::SecurityUtils.secure_compare(params[:password].to_s, admin_password)
+
+    if email_match && password_match
       session[:admin_id] = "admin"
       redirect_to root_path, notice: "ログインしました。"
     else

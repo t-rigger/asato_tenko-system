@@ -88,14 +88,14 @@
     <p id="status-message"></p>
     
     <div class="admin-link">
-      <a href="https://docs.google.com/spreadsheets/d/1WqOsJmpEYnbvMMZAipC_I4ErfMinJKws843xB6G3AIo/" target="_blank">シフト入力はこちら</a>
+      <a href="<%= ENV['SPREADSHEET_URL'] %>" target="_blank">シフト入力はこちら</a>
     </div>
   </div>
 
 
   <script>
     // GAS API URL (環境変数から取得、または直接指定)
-    const GAS_API_URL = "<%= ENV['GAS_API_URL'] || 'https://script.google.com/macros/s/AKfycbwMLJIVKmo2syvFnWKNvke4_VahRwftJFEec6AGSf2jerk7qabHqj_LdCERBTVaGK4d/exec' %>";
+    const GAS_API_URL = "<%= ENV['GAS_API_URL'] %>";
     // GAS API KEY (環境変数から取得)
     const GAS_API_KEY = "<%= ENV['GAS_API_KEY'] %>";
 
@@ -111,8 +111,9 @@
         qrContainer.innerHTML = '';
 
         if (data.isFull) {
-          // 全アカウント満杯の場合
-          statusMessage.innerText = data.message || 'すべてのアカウントが満杯です';
+          // 全アカウント満杯の場合：担当者へ連絡を促すメッセージを表示
+          qrContainer.innerHTML = '<p style="font-size:2rem;">⚠️</p>';
+          statusMessage.innerText = '友達登録人数の上限に達しました。\nシステム開発担当者にご連絡ください。';
         } else if (data.qrUrl) {
           // 空きがある場合、そのURLを使ってQRコードを生成
           new QRCode(qrContainer, {

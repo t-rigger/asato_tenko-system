@@ -16,8 +16,7 @@ class ApplicationController < ActionController::Base
 
   def current_admin
     return unless admin_signed_in?
-    # Simple object to mimic Devise's current_admin
-    OpenStruct.new(email: ENV["ADMIN_EMAIL"] || "admin@example.com")
+    OpenStruct.new(email: ENV["ADMIN_EMAIL"].to_s)
   end
 
 

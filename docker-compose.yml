@@ -11,9 +11,11 @@ services:
       - "3000:3000"
     environment:
       RAILS_ENV: development
-      GAS_API_URL: ${GAS_API_URL:-https://script.google.com/macros/s/AKfycbwMLJIVKmo2syvFnWKNvke4_VahRwftJFEec6AGSf2jerk7qabHqj_LdCERBTVaGK4d/exec}
-      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@example.com}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-password123}
+      GAS_API_URL: ${GAS_API_URL}
+      GAS_API_KEY: ${GAS_API_KEY}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      SESSION_SECRET: ${SESSION_SECRET}
 
 volumes:
   bundle_cache:

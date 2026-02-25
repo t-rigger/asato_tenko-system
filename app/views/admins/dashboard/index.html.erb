@@ -130,7 +130,8 @@
   </div>
 
   <script>
-    const GAS_API_URL = "<%= ENV['GAS_API_URL'] || 'https://script.google.com/macros/s/AKfycbwMLJIVKmo2syvFnWKNvke4_VahRwftJFEec6AGSf2jerk7qabHqj_LdCERBTVaGK4d/exec' %>";
+    const GAS_API_URL = "<%= ENV['GAS_API_URL'] %>";
+    const GAS_API_KEY = "<%= ENV['GAS_API_KEY'] %>";
 
     // 月セレクターの初期化
     function initMonthSelector() {
@@ -160,7 +161,7 @@
       contentDiv.innerHTML = '<p class="loading">読み込み中...</p>';
       
       try {
-        const response = await fetch(`${GAS_API_URL}?action=get_shifts&month=${month}`);
+        const response = await fetch(`${GAS_API_URL}?action=get_shifts&month=${month}&api_key=${GAS_API_KEY}`);
         const json = await response.json();
         
         if (json.status === 'success' && json.data) {
