@@ -88,7 +88,10 @@
     <p id="status-message"></p>
     
     <div class="admin-link">
-      <a href="<%= ENV['SPREADSHEET_URL'] %>" target="_blank">シフト入力はこちら</a>
+      <a href="<%= ENV['SPREADSHEET_URL'].presence || 'https://docs.google.com/spreadsheets/d/1WqOsJmpEYnbvMMZAipC_I4ErfMinJKws843xB6G3AIo/' %>" target="_blank">シフト入力はこちら</a>
+    </div>
+    <div class="admin-link" style="margin-top: 1rem;">
+      <%= link_to "ログアウト", admins_logout_path, data: { turbo_method: :delete }, style: "color: #e74c3c; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; border: 2px solid #e74c3c; border-radius: 8px; display: inline-block;" %>
     </div>
   </div>
 
