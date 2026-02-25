@@ -118,6 +118,8 @@
           qrContainer.innerHTML = '<p style="font-size:2rem;">⚠️</p>';
           statusMessage.innerText = '友達登録人数の上限に達しました。\nシステム開発担当者にご連絡ください。';
         } else if (data.qrUrl) {
+          // 空きが復活した場合はメッセージを消す
+          statusMessage.innerText = '';
           // 空きがある場合、そのURLを使ってQRコードを生成
           new QRCode(qrContainer, {
             text: data.qrUrl,
