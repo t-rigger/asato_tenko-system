@@ -88,7 +88,7 @@
     <p id="status-message"></p>
     
     <div class="admin-link">
-      <a href="<%= ENV['SPREADSHEET_URL'].presence || 'https://docs.google.com/spreadsheets/d/1WqOsJmpEYnbvMMZAipC_I4ErfMinJKws843xB6G3AIo/' %>" target="_blank">シフト入力はこちら</a>
+      <a id="shift-input-link" href="<%= ENV['SPREADSHEET_URL'].presence || 'https://docs.google.com/spreadsheets/d/1WqOsJmpEYnbvMMZAipC_I4ErfMinJKws843xB6G3AIo/' %>" target="_blank">シフト入力はこちら</a>
     </div>
     <div class="admin-link" style="margin-top: 1rem;">
       <%= link_to "ログアウト", admins_logout_path, data: { turbo_method: :delete }, style: "color: #e74c3c; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; border: 2px solid #e74c3c; border-radius: 8px; display: inline-block;" %>
@@ -117,6 +117,14 @@
           // 全アカウント満杯の場合：担当者へ連絡を促すメッセージを表示
           qrContainer.innerHTML = '<p style="font-size:2rem;">⚠️</p>';
           statusMessage.innerText = '友達登録人数の上限に達しました。\nシステム開発担当者にご連絡ください。';
+          // 新機能：GASから「当月のシフトシートURL（gid付き）」が届いていたらリンクを書き換える
+          if (data.sheetUrl) {
+            const shiftLink = document.getElementById('shift-input-link');
+            if (shiftLink && shiftLink.href !== data.sheetUrl) {
+              shiftLink.href = data.sheetUrl;
+            }
+          }
+
         } else if (data.qrUrl) {
           // 空きが復活した場合はメッセージを消す
           statusMessage.innerText = '';
@@ -129,6 +137,14 @@
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel ? QRCode.CorrectLevel.H : 1
           });
+
+          // 新機能：GASから「当月のシフトシートURL（gid付き）」が届いていたらリンクを書き換える
+          if (data.sheetUrl) {
+            const shiftLink = document.getElementById('shift-input-link');
+            if (shiftLink && shiftLink.href !== data.sheetUrl) {
+              shiftLink.href = data.sheetUrl;
+            }
+          }
         }
       } catch (error) {
         console.error("Failed to load QR code:", error);
